@@ -29,8 +29,26 @@ public class PlayerBehaviour : MonoBehaviour
     [Range(0, 100)]
     public int health;
 
+    public InventoryPanel inventory;
+
+   // Inventory inventory;
     Vector3 velocity;
     // Update is called once per frame
+
+    private void Start()
+    {
+        inventory.ItemUsed += Inventory_ItemUsed;
+    }
+
+    private void Inventory_ItemUsed(object sender, InventoryEventArgs e)
+    {
+        InventoryItemBase item = e.Item;
+
+        health = healthBar.MaxHealth;
+
+        
+    }
+
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -75,5 +93,29 @@ public class PlayerBehaviour : MonoBehaviour
     public void OnMapButtonPressed()
     {
         ToggleMinimap();
+    }
+
+    private static PlayerBehaviour instance;
+
+    public static PlayerBehaviour MyInstance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                instance = FindObjectOfType<PlayerBehaviour>();
+            }
+            return instance;
+        }
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        InventoryItemBase item = hit.collider.GetComponent<InventoryItemBase>();
+        if(item != null)
+        {
+            inventory.AddItem(item);
+           // Destroy(this.gameObject);
+        }
     }
 }

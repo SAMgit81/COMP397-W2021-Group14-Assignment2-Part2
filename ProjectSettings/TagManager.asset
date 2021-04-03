@@ -10,6 +10,8 @@ TagManager:
   - FxTemporaire
   - Enemy
   - Security
+  - PlayerPos
+  - InventoryPanel
   layers:
   - Default
   - TransparentFX

@@ -4,12 +4,26 @@ using UnityEngine;
 
 public class PickUpKey : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    private Invent inventory;
+    public GameObject itemButton;
+
+    private void Start()
     {
-        if (other.gameObject.name == "Player")
-        {
-            GameVariables.KeyCount += 2;
-            Destroy(gameObject);
-        }
+        inventory = GameObject.FindGameObjectWithTag("Player").GetComponent<Invent>();
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+            for (int i = 0; i < inventory.slots.Length; i++)
+            {
+                if (inventory.isFull[i] == false)
+                {
+                    inventory.isFull[i] = true;
+                    Instantiate(itemButton, inventory.slots[i].transform, false);
+                    Destroy(gameObject);
+                    break;
+                }
+            }
+    }   
 }
+
