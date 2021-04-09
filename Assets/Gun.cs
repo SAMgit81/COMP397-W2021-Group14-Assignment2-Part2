@@ -1,4 +1,5 @@
 
+using Assets._Scripts;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -11,7 +12,7 @@ public class Gun : MonoBehaviour
     public Camera fpsCam;
     public ParticleSystem muzzleFlash;
     public GameObject impactEffect;
-    public AudioSource fireSound;
+    public AudioClip fireSound;
 
     public float nextTimeToFire = 0f;
 
@@ -37,7 +38,8 @@ public class Gun : MonoBehaviour
     void Shoot()
     {
         muzzleFlash.Play();
-        fireSound.Play();
+        //fireSound.Play();
+        AudioManager.Instance.Play(fireSound, transform); 
         RaycastHit hit;
         if(Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out hit, range))
         {
